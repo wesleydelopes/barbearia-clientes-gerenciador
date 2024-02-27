@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Clientes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+    <div class="container">
+        <h1>Gerenciamento de Clientes</h1>
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('adicionar_cliente_route') }}">
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" class="form-control" name="nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numero">Número:</label>
+                        <input type="text" class="form-control" name="numero" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plano">Plano:</label>
+                        <input type="text" class="form-control" name="plano" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="barbeiro">Barbeiro:</label>
+                        <input type="text" class="form-control" name="barbeiro" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data">Data (dd-mm-yyyy):</label>
+                        <input type="text" class="form-control" name="data" placeholder="dd-mm-yyyy" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="valor">Valor:</label>
+                        <input type="text" class="form-control" name="valor" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Adicionar Cliente</button>
+                </form>
+            </div>
+        </div>
+        <br> 
+        <br> 
+        <!-- Lista de clientes -->
+        <div id="listaClientes">
+            <h2>Lista de Clientes</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Número</th>
+                        <th scope="col">Plano</th>
+                        <th scope="col">Barbeiro</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="clientesTableBody">
+                    <!-- A lista de clientes será preenchida dinamicamente aqui com JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
