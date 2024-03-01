@@ -1,11 +1,13 @@
 // main.js
+
+
 document.addEventListener('DOMContentLoaded', function() {
 
     function isValidDate(dateString) {
         var regex = /^\d{2}-\d{2}-\d{4}$/;
         return dateString.match(regex);
     }
-    // Função para carregar a lista de clientes usando AJAX
+    // Função para carregar a lista de clientes
     function carregarListaClientes() {
         fetch('/get_clientes')
             .then(response => response.json())
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <td>${cliente[6] ? 'Sim' : 'Não'}</td>
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="apagarCliente('${cliente[0]}')">Apagar</button>
+                            <button class="btn btn-primary btn-sm" onclick="renovarCliente('${cliente[0]}')">Renovar</button>
                         </td>
                     `;
                     tableBody.appendChild(newRow);
@@ -45,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Atualizar a página
             location.reload();
     }
+
 
     // Carregar a lista de clientes quando a página é carregada
     carregarListaClientes();

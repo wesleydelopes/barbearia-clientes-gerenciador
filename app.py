@@ -216,6 +216,37 @@ def apagar_cliente(nome):
     finally:
         conn.close()
 
+
+# Rota para renovar a data de um cliente
+@app.route('/renovar_cliente/<nome_cliente>', methods=['POST'])
+def renovar_cliente(nome_cliente):
+    try:
+        conn = sqlite3.connect('clientes.db')
+        cursor = conn.cursor()
+
+        # Busca o cliente no banco de dados
+        cursor.execute('SELECT * FROM clientes WHERE nome=?', (nome_cliente,))
+        cliente = cursor.fetchone()
+
+        if cliente:
+            # Atualiza a data do cliente para a data atual
+            nova_data = datetime.now().strftime('%d-%m-%Y')
+            cursor.execute('UPDATE clientes SET data=? WHERE nome=?', (nova_data, nome_cliente))
+            conn.commit()
+
+            return jsonify({"mensagem": f"Data do cliente {nome_cliente} renovada com sucesso."})
+
+        return jsonify({"erro": f"Cliente {nome_cliente} não encontrado."}), 404
+
+    except Exception as e:
+        print(f"Erro ao renovar cliente: {e}")
+        return jsonify({"erro": f"Erro ao renovar cliente: {e}"}), 500
+
+    finally:
+        conn.close()
+
+
+
 # Executa a aplicação Flask
 if __name__ == '__main__':
     app.run(debug=True)
